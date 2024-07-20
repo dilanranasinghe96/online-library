@@ -1,3 +1,6 @@
+<style src="../assets/styles/searchBooks.css"></style>
+
+
 <template>
   <div class="search-container">
     <h2>Search Books</h2>
@@ -47,7 +50,7 @@ export default {
     async borrowBook(bookId) {
       try {
         await axios.post(`/api/borrow/${bookId}`);
-        this.searchBooks(); // Refresh search results
+        this.searchBooks(); 
       } catch (error) {
         console.error('Error borrowing book:', error);
       }
@@ -56,30 +59,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.search-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-}
-
-.search-container .input-group {
-  margin-bottom: 15px;
-}
-
-.search-container .book-list {
-  margin-top: 20px;
-}
-
-.search-container .card {
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  padding: 20px;
-  margin-bottom: 20px;
-}
-</style>

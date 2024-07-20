@@ -1,0 +1,27 @@
+.register-container {
+  margin:  auto;
+  
+  background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.register-container .input-group {
+  margin-bottom: 15px;
+}
+
+.register-container .button {
+  background-color: #8400ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+}
+
+.register-container .button:hover {
+  background-color: #0056b3;
+}

@@ -1,3 +1,6 @@
+<style src="../assets/styles/userBooks.css"></style>
+
+
 <template>
   <div class="container">
     <h2>Your Borrowed Books</h2>
@@ -36,13 +39,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.card {
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  padding: 20px;
-  margin: 20px 0;
-}
-</style>
+

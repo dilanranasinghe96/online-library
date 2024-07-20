@@ -1,4 +1,3 @@
-/* For login page */
 .login-container {
     max-width: 400px;
     margin: 0 auto;
@@ -17,7 +16,6 @@
     margin-bottom: 15px;
   }
   
-  /* For book list */
   .book-list {
     display: flex;
     flex-wrap: wrap;
@@ -28,7 +26,6 @@
     margin: 10px;
   }
   
-  /* For book details */
   .book-details {
     display: flex;
     flex-direction: column;

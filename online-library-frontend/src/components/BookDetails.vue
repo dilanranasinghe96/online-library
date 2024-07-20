@@ -33,6 +33,4 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Add styles specific to book details here */
-</style>
+

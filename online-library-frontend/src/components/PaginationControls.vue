@@ -37,6 +37,4 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Add any additional styles for pagination here */
-</style>
+
