@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div>
+    <h1>Welcome to the Online Library</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'HomePage'
 };
 </script>
 
