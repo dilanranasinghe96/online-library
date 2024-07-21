@@ -1,6 +1,3 @@
-<style src="../assets/styles/login.css"></style>
-
-
 <template>
   <div class="login-page">
     <div class="login-container">
@@ -17,7 +14,7 @@
         <button class="button" type="submit">Login</button>
       </form>
       <p class="register-link">
-      Don't have an account? 
+        Don't have an account? 
         <button class="register-button" @click="$router.push('/register')">Register</button>
       </p>
     </div>
@@ -25,6 +22,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'UserLogin',
   data() {
@@ -35,7 +34,21 @@ export default {
   },
   methods: {
     async login() {
-      this.$router.push('/books');
+      try {
+        const response = await axios.post('/api/login', {
+          email: this.email,
+          password: this.password
+        });
+        
+        // Store the token in local storage or Vuex store
+        localStorage.setItem('authToken', response.data.token);
+        
+        // Redirect to books page
+        this.$router.push('/books');
+      } catch (error) {
+        console.error('Error logging in:', error);
+        alert('Login failed. Please check your credentials.');
+      }
     }
   }
 };

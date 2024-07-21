@@ -1,6 +1,3 @@
-<style src="../assets/styles/register.css"></style>
-
-
 <template>
   <div class="register-container">
     <h2>Register</h2>
@@ -45,9 +42,12 @@ export default {
         this.$router.push('/login'); 
       } catch (error) {
         console.error('Error registering user:', error);
+        alert('Registration failed. Please check your details.');
       }
     }
   }
 };
 </script>
 
+
+<style scoped src="../assets/styles/register.css"></style>
