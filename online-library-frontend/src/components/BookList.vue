@@ -1,49 +1,74 @@
-<style src="../assets/styles/bookList.css"></style>
-
-
 <template>
-  <div class="container">
-    <h2>Book List</h2>
-    <div v-for="book in books" :key="book.id" class="card">
-      <img :src="book.coverImage" alt="Book Cover">
-      <h3>{{ book.title }}</h3>
-      <p>{{ book.description }}</p>
-      <p>Genre: {{ book.genre }}</p>
-      <p>Price: {{ book.price }}</p>
-      <button class="button" @click="borrowBook(book.id)">Borrow</button>
+    <div class="book-list-view">
+      <SiteNavbar />
+      <div class="container">
+        <h1>Online Library</h1>
+        <input type="text" v-model="searchQuery" placeholder="Search by title, description, or genre" />
+        <BookList :books="books" @borrow="borrowBook" @return="returnBook" />
+        <BookPagination :total="totalPages" :current="currentPage" @change="changePage" />
+      </div>
     </div>
-    <PaginationControls :total-pages="totalPages" @page-changed="fetchBooks" />
-  </div>
-</template>
-
-<script>
-import PaginationControls from './PaginationControls.vue';
-import axios from 'axios';
-
-export default {
-  components: {
-    PaginationControls
-  },
-  data() {
-    return {
-      books: [],
-      totalPages: 1
-    };
-  },
-  methods: {
-    async fetchBooks(page = 1) {
-      const response = await axios.get(`/api/books?page=${page}`);
-      this.books = response.data.books;
-      this.totalPages = response.data.totalPages;
+  </template>
+  
+  <script>
+  import axios from 'axios';
+import BookList from '../components/BookList.vue';
+import BookPagination from '../components/BookPagination.vue';
+import SiteNavbar from '../components/SiteNavbar.vue';
+  
+  export default {
+    name: 'BookListView',
+    components: {
+      SiteNavbar,
+      BookList,
+      BookPagination
     },
-    async borrowBook(bookId) {
-      await axios.post(`/api/borrow/${bookId}`);
+    data() {
+      return {
+        books: [],
+        searchQuery: '',
+        totalPages: 1,
+        currentPage: 1
+      };
+    },
+    async created() {
       this.fetchBooks();
+    },
+    methods: {
+      async fetchBooks(page = 1) {
+        try {
+          const response = await axios.get(`http://localhost:8000/api/books?page=${page}&search=${this.searchQuery}`);
+          this.books = response.data.data;
+          this.totalPages = response.data.last_page;
+          this.currentPage = page;
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      async borrowBook(bookId) {
+        try {
+          await axios.post(`http://localhost:8000/api/borrow/${bookId}`);
+          this.fetchBooks();
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      async returnBook(bookId) {
+        try {
+          await axios.post(`http://localhost:8000/api/return/${bookId}`);
+          this.fetchBooks();
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      changePage(page) {
+        this.fetchBooks(page);
+      }
     }
-  },
-  created() {
-    this.fetchBooks();
-  }
-};
-</script>
-
+  };
+  </script>
+  
+  <style scoped>
+  @import '@/assets/book-list-view.css';
+  </style>
+  

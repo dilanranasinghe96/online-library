@@ -1,36 +1,42 @@
 <template>
-  <div class="container">
-    <h2>{{ book.title }}</h2>
-    <p>{{ book.description }}</p>
-    <p>Genre: {{ book.genre }}</p>
-    <p>Price: {{ book.price }}</p>
-    <button class="button" @click="borrowBook">Borrow</button>
-  </div>
-</template>
-
-<script>
-import axios from 'axios';
-
-export default {
-  data() {
-    return {
-      book: {}
-    };
-  },
-  methods: {
-    async fetchBook() {
-      const response = await axios.get(`/api/books/${this.$route.params.id}`);
-      this.book = response.data;
+    <div class="book-details" v-if="book">
+      <h2>{{ book.title }}</h2>
+      <p>{{ book.description }}</p>
+      <p><strong>Genre:</strong> {{ book.genre }}</p>
+      <p><strong>Price:</strong> ${{ book.price }}</p>
+      <button @click="returnBook">Return</button>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name: 'BookDetails',
+    props: ['id'],
+    data() {
+      return {
+        book: null
+      };
     },
-    async borrowBook() {
-      await axios.post(`/api/borrow/${this.book.id}`);
-      this.$router.push('/user-books');
+    created() {
+      this.fetchBook();
+    },
+    methods: {
+      fetchBook() {
+       
+        this.book = { id: this.id, title: 'Sample Book', description: 'This is a sample book description.', genre: 'Fiction', price: 20 };
+      },
+      returnBook() {
+      }
     }
-  },
-  created() {
-    this.fetchBook();
+  };
+  </script>
+  
+  <style scoped>
+  .book-details {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
   }
-};
-</script>
-
-
+  </style>
+  

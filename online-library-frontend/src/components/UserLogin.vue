@@ -1,23 +1,11 @@
 <template>
-  <div class="login-page">
-    <div class="login-container">
-      <h2>Login</h2>
-      <form @submit.prevent="login">
-        <div class="input-group">
-          <label>Email:</label>
-          <input v-model="email" type="email" required />
-        </div>
-        <div class="input-group">
-          <label>Password:</label>
-          <input v-model="password" type="password" required />
-        </div>
-        <button class="button" type="submit">Login</button>
-      </form>
-      <p class="register-link">
-        Don't have an account? 
-        <button class="register-button" @click="$router.push('/register')">Register</button>
-      </p>
-    </div>
+  <div class="login-container">
+    <h1>Login</h1>
+    <form @submit.prevent="login">
+      <input type="email" v-model="email" placeholder="Email" required />
+      <input type="password" v-model="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
   </div>
 </template>
 
@@ -35,21 +23,19 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post('/api/login', {
+        const response = await axios.post('http://localhost:8000/api/login', {
           email: this.email,
           password: this.password
         });
-        
-        // Store the token in local storage or Vuex store
-        localStorage.setItem('authToken', response.data.token);
-        
-        // Redirect to books page
-        this.$router.push('/books');
+        console.log(response.data);
       } catch (error) {
-        console.error('Error logging in:', error);
-        alert('Login failed. Please check your credentials.');
+        console.error(error);
       }
     }
   }
 };
 </script>
+
+<style scoped>
+@import '@/assets/user-login.css';
+</style>

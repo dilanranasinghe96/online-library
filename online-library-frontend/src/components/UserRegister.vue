@@ -1,20 +1,11 @@
 <template>
   <div class="register-container">
-    <h2>Register</h2>
+    <h1>Register</h1>
     <form @submit.prevent="register">
-      <div class="input-group">
-        <label for="name">Name:</label>
-        <input v-model="name" id="name" type="text" required />
-      </div>
-      <div class="input-group">
-        <label for="email">Email:</label>
-        <input v-model="email" id="email" type="email" required />
-      </div>
-      <div class="input-group">
-        <label for="password">Password:</label>
-        <input v-model="password" id="password" type="password" required />
-      </div>
-      <button class="button" type="submit">Register</button>
+      <input type="text" v-model="name" placeholder="Name" required />
+      <input type="email" v-model="email" placeholder="Email" required />
+      <input type="password" v-model="password" placeholder="Password" required />
+      <button type="submit">Register</button>
     </form>
   </div>
 </template>
@@ -34,20 +25,20 @@ export default {
   methods: {
     async register() {
       try {
-        await axios.post('/api/register', {
+        const response = await axios.post('http://localhost:8000/api/register', {
           name: this.name,
           email: this.email,
           password: this.password
         });
-        this.$router.push('/login'); 
+        console.log(response.data);
       } catch (error) {
-        console.error('Error registering user:', error);
-        alert('Registration failed. Please check your details.');
+        console.error(error);
       }
     }
   }
 };
 </script>
 
-
-<style scoped src="../assets/styles/register.css"></style>
+<style scoped>
+@import '@/assets/user-register.css';
+</style>
