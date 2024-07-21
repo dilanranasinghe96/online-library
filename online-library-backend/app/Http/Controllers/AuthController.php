@@ -52,4 +52,33 @@ class AuthController extends Controller
             'message' => 'Success'
         ])->withCookie($cookie);
     }
+
+
+    public function borrowBook(Request $request, $id)
+    {
+        $user = Auth::user();
+        $book = Book::findOrFail($id);
+
+        if ($user->borrowedBooks()->where('book_id', $id)->exists()) {
+            return response()->json(['message' => 'Book already borrowed'], Response::HTTP_CONFLICT);
+        }
+
+        $user->borrowedBooks()->attach($book);
+
+        return response()->json(['message' => 'Book borrowed successfully'], Response::HTTP_OK);
+    }
+
+    public function returnBook(Request $request, $id)
+    {
+        $user = Auth::user();
+        $book = Book::findOrFail($id);
+
+        if (!$user->borrowedBooks()->where('book_id', $id)->exists()) {
+            return response()->json(['message' => 'Book not borrowed'], Response::HTTP_CONFLICT);
+        }
+
+        $user->borrowedBooks()->detach($book);
+
+        return response()->json(['message' => 'Book returned successfully'], Response::HTTP_OK);
+    }
 }
